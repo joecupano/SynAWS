@@ -139,27 +139,7 @@ AWS_SERVICES = {
 }
 
 AWS_REGIONS = [
-    # North America
-    'us-east-1',      # US East (N. Virginia)
-    'us-west-2',      # US West (Oregon)
-    'ca-central-1',   # Canada (Central)
-
-    # Europe
-    'eu-west-1',      # Europe (Ireland)
-    'eu-central-1',   # Europe (Frankfurt)
-
-    # Asia Pacific
-    'ap-southeast-1', # Asia Pacific (Singapore)
-    'ap-northeast-1', # Asia Pacific (Tokyo)
-    'ap-south-1',     # Asia Pacific (Mumbai)
-    'ap-east-1',      # Asia Pacific (Hong Kong)
-
-    # South America
-    'sa-east-1',      # South America (São Paulo)
-
-    # Middle East
-    'me-south-1',     # Middle East (Bahrain)
-
-    # Africa
-    'af-south-1'      # Africa (Cape Town)
+    'us-east-1', 'us-west-2', 'ca-central-1', 'eu-west-1', 'eu-central-1',
+    'ap-southeast-1', 'ap-northeast-1', 'ap-south-1', 'ap-east-1', 'sa-east-1',
+    'me-south-1', 'af-south-1'
 ]
