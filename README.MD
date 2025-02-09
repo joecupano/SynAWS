@@ -4,22 +4,12 @@ This project generates synthetic AWS billing data in CUR 2.0 format. It allows u
 
 ## Project Structure
 
-- `SynAWS-copilot.py`: Streamlit application for user interaction and data generation.
 - `services.py`: Defines AWS services and regions with detailed configurations.
 - `main.py`: Main Streamlit application integrating service configurations and data generation.
 - `data_generator.py`: Generates billing data based on selected services and regions.
 - `cur_formatter.py`: Formats the generated data into CUR 2.0 CSV format.
 
 ## File Descriptions
-
-### SynAWS-copilot.py
-
-This file contains the main Streamlit application for user interaction.
-
-- **Imports**: Imports necessary libraries and modules.
-- **AWS_SERVICES and AWS_REGIONS**: Imported from `services.py`.
-- **Streamlit UI**: Provides a user interface for selecting regions, services, and the number of days for data generation.
-- **Generate Button**: When clicked, generates synthetic billing data and provides a download link for the CSV file.
 
 ### services.py
 
