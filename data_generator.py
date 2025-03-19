@@ -15,30 +15,39 @@ class BillingDataGenerator:
     def generate_usage_pattern(self, mean_value: float, num_points: int) -> np.ndarray:
         """Generate realistic usage patterns with daily and weekly cycles"""
         base = np.random.normal(mean_value, mean_value * 0.1, num_points)
+        
+        # Add daily pattern (higher during business hours)
         hours = np.arange(num_points) % 24
         daily_pattern = np.sin(hours * 2 * np.pi / 24) * 0.2 * mean_value
+        
+        # Add weekly pattern (lower on weekends)
         days = np.arange(num_points) % 168
         weekly_pattern = (days < 120).astype(float) * 0.15 * mean_value
+        
         return np.maximum(base + daily_pattern + weekly_pattern, 0)
 
     def generate_data(self) -> pd.DataFrame:
         records = []
         hours = self.days * 24
+        
         for service_name, options in self.selected_services.items():
             service = AWS_SERVICES[service_name]
             region_mult = service.region_multiplier[self.selected_region]
+            
             for option in service.options:
                 if option.name in options:
                     usage_value = float(options[option.name])
                     if usage_value > 0:
                         usage_pattern = self.generate_usage_pattern(usage_value, hours)
+                        
                         for hour in range(hours):
                             current_time = self.start_date + timedelta(hours=hour)
                             usage = usage_pattern[hour]
                             cost = usage * option.hourly_rate * region_mult
+                            
                             records.append({
-                                'identity/TimeInterval': f"{current_time.strftime('%Y-%m-%d')}T00:00:00Z/{(current_time + timedelta(days=1)).strftime('%Y-%m-%d')}T00:00:00Z",
-                                'identity/LineItemId': f"{service_name.lower()}-{hour}-{hash(str(current_time))}",
+                                #'identity/TimeInterval': f"{current_time.strftime('%Y-%m-%d')}T00:00:00Z/{(current_time + timedelta(days=1)).strftime('%Y-%m-%d')}T00:00:00Z",
+                                #'identity/LineItemId': f"{service_name.lower()}-{hour}-{hash(str(current_time))}",
                                 'bill/PayerAccountId': '123456789012',
                                 'bill/BillingPeriodStartDate': self.start_date.strftime('%Y-%m-%d'),
                                 'bill/BillingPeriodEndDate': self.end_date.strftime('%Y-%m-%d'),
@@ -48,6 +57,20 @@ class BillingDataGenerator:
                                 'lineItem/Operation': f"Use{service_name}{option.name.replace(' ', '')}",
                                 'lineItem/AvailabilityZone': f"{self.selected_region}a",
                                 'lineItem/ResourceId': f"{service_name.lower()}-resource-{hash(option.name)}",
+                                #New Columns 
+                                'bill/InvoiceId': f"INV-{hash(service_name + str(hour))}",
+                                'bill/BillingEntity': "AWS",
+                                'bill/InvoiceTotal': round(cost * 1.1, 2),  # Adding 10% overhead for tax
+                                'bill/BillingCurrency': "USD",
+                                'bill/TaxAmount': round(cost * 0.1, 2),
+                                'bill/TotalCost': round(cost * 1.1, 2),
+                                'lineItem/LineItemType': "Usage",
+                                'lineItem/TaxType': "VAT",
+                                'product/servicecode': service_name,
+                                'product/sku': f"SKU-{hash(service_name)}",
+                                'pricing/publicOnDemandRate': round(option.hourly_rate * region_mult, 6),
+                                'pricing/publicOnDemandCost': round(cost, 6),
+                                #Continued from previous code
                                 'lineItem/UsageStartDate': current_time.strftime('%Y-%m-%d %H:%M:%S'),
                                 'lineItem/UsageEndDate': (current_time + timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S'),
                                 'lineItem/UsageAmount': round(usage, 6),
@@ -61,4 +84,5 @@ class BillingDataGenerator:
                                 'product/region': self.selected_region,
                                 'pricing/unit': option.unit
                             })
+        
         return pd.DataFrame(records)

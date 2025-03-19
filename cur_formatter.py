@@ -7,8 +7,8 @@ class CURFormatter:
         """Format DataFrame as CUR 2.0 CSV string"""
         # Ensure correct column order
         columns = [
-            'identity/TimeInterval',
-            'identity/LineItemId',
+            #'identity/TimeInterval', This is now removed as not CUR 2.0
+            #'identity/LineItemId', This is now removed as not CUR 2.0 as LineItem description and LineItem Resource ID is what is used 
             'bill/PayerAccountId',
             'bill/BillingPeriodStartDate',
             'bill/BillingPeriodEndDate',
@@ -18,6 +18,21 @@ class CURFormatter:
             'lineItem/Operation',
             'lineItem/AvailabilityZone',
             'lineItem/ResourceId',
+             #New fields
+            'bill/InvoiceId',
+            'bill/BillingEntity',
+            'bill/InvoiceTotal',
+            'bill/BillingCurrency',
+            'bill/TaxAmount',
+            'bill/TotalCost',
+            'lineItem/LineItemType',
+            'lineItem/TaxType',
+            'product/servicecode',
+            'product/sku',
+            'pricing/publicOnDemandRate',
+            'pricing/publicOnDemandCost',
+            #From previous
+            #'lineItem/UsageEndTime',
             'lineItem/UsageStartDate',
             'lineItem/UsageEndDate',
             'lineItem/UsageAmount',
