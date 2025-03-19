@@ -136,10 +136,99 @@ AWS_SERVICES = {
             'af-south-1': 1.0, 'me-south-1': 1.0, 'ap-east-1': 1.0
         }  # CloudFront pricing is usually consistent across regions
     ),
+    'Redshift': AWSService(
+        name='Amazon Redshift',
+        options=[
+            ServiceOption('dc2.large nodes', 0, 10, 'nodes', 0.25),
+            ServiceOption('ds2.xlarge nodes', 0, 5, 'nodes', 0.85),
+            ServiceOption('Backup Storage', 0, 1000, 'GB', 0.024),
+        ],
+        region_multiplier={
+            'us-east-1': 1.0, 'us-west-2': 1.05, 'eu-west-1': 1.1,
+            'ap-southeast-1': 1.15, 'ap-northeast-1': 1.20, 'sa-east-1': 1.25,
+            'ca-central-1': 1.08, 'eu-central-1': 1.12, 'ap-south-1': 1.18,
+            'af-south-1': 1.22, 'me-south-1': 1.28, 'ap-east-1': 1.21
+        }
+    ),
+    'EKS': AWSService(
+        name='Amazon Elastic Kubernetes Service',
+        options=[
+            ServiceOption('EKS Clusters', 0, 5, 'clusters', 0.10),
+            ServiceOption('Fargate vCPU', 0, 1000, 'vCPU-hours', 0.04048),
+            ServiceOption('Fargate Memory', 0, 1000, 'GB-hours', 0.004445),
+        ],
+        region_multiplier={
+            'us-east-1': 1.0, 'us-west-2': 1.05, 'eu-west-1': 1.1,
+            'ap-southeast-1': 1.15, 'ap-northeast-1': 1.20, 'sa-east-1': 1.25,
+            'ca-central-1': 1.08, 'eu-central-1': 1.12, 'ap-south-1': 1.18,
+            'af-south-1': 1.22, 'me-south-1': 1.28, 'ap-east-1': 1.21
+        }
+    ),
+    'ECS': AWSService(
+        name='Amazon Elastic Container Service',
+        options=[
+            ServiceOption('ECS Clusters', 0, 5, 'clusters', 0.10),
+            ServiceOption('Fargate vCPU', 0, 1000, 'vCPU-hours', 0.04048),
+            ServiceOption('Fargate Memory', 0, 1000, 'GB-hours', 0.004445),
+        ],
+        region_multiplier={
+            'us-east-1': 1.0, 'us-west-2': 1.05, 'eu-west-1': 1.1,
+            'ap-southeast-1': 1.15, 'ap-northeast-1': 1.20, 'sa-east-1': 1.25,
+            'ca-central-1': 1.08, 'eu-central-1': 1.12, 'ap-south-1': 1.18,
+            'af-south-1': 1.22, 'me-south-1': 1.28, 'ap-east-1': 1.21
+        }
+    ),
+    'Route53': AWSService(
+        name='Amazon Route 53',
+        options=[
+            ServiceOption('Hosted Zones', 0, 100, 'zones', 0.50),
+            ServiceOption('DNS Queries', 0, 1000000, 'queries', 0.0000004),
+        ],
+        region_multiplier={
+            'us-east-1': 1.0, 'us-west-2': 1.0, 'eu-west-1': 1.0,
+            'ap-southeast-1': 1.0, 'ap-northeast-1': 1.0, 'sa-east-1': 1.0,
+            'ca-central-1': 1.0, 'eu-central-1': 1.0, 'ap-south-1': 1.0,
+            'af-south-1': 1.0, 'me-south-1': 1.0, 'ap-east-1': 1.0
+        }  # Route 53 pricing is usually consistent across regions
+    ),
+    'EFS': AWSService(
+        name='Amazon Elastic File System',
+        options=[
+            ServiceOption('Standard Storage', 0, 1000, 'GB', 0.30),
+            ServiceOption('Infrequent Access Storage', 0, 1000, 'GB', 0.025),
+            ServiceOption('Provisioned Throughput', 0, 1000, 'MB/s-month', 6.00),
+        ],
+        region_multiplier={
+            'us-east-1': 1.0, 'us-west-2': 1.05, 'eu-west-1': 1.1,
+            'ap-southeast-1': 1.15, 'ap-northeast-1': 1.20, 'sa-east-1': 1.25,
+            'ca-central-1': 1.08, 'eu-central-1': 1.12, 'ap-south-1': 1.18,
+            'af-south-1': 1.22, 'me-south-1': 1.28, 'ap-east-1': 1.21
+        }
+    ),
 }
 
 AWS_REGIONS = [
-    'us-east-1', 'us-west-2', 'ca-central-1', 'eu-west-1', 'eu-central-1',
-    'ap-southeast-1', 'ap-northeast-1', 'ap-south-1', 'ap-east-1', 'sa-east-1',
-    'me-south-1', 'af-south-1'
+    # North America
+    'us-east-1',      # US East (N. Virginia)
+    'us-west-2',      # US West (Oregon)
+    'ca-central-1',   # Canada (Central)
+
+    # Europe
+    'eu-west-1',      # Europe (Ireland)
+    'eu-central-1',   # Europe (Frankfurt)
+
+    # Asia Pacific
+    'ap-southeast-1', # Asia Pacific (Singapore)
+    'ap-northeast-1', # Asia Pacific (Tokyo)
+    'ap-south-1',     # Asia Pacific (Mumbai)
+    'ap-east-1',      # Asia Pacific (Hong Kong)
+
+    # South America
+    'sa-east-1',      # South America (São Paulo)
+
+    # Middle East
+    'me-south-1',     # Middle East (Bahrain)
+
+    # Africa
+    'af-south-1'      # Africa (Cape Town)
 ]
