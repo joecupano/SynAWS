@@ -51,7 +51,7 @@ def generate_random_value(option):
     return float(random.uniform(min_val, max_val * 0.2))
 
 def main():
-    st.set_page_config(page_title="AWS Billing Data Generator", layout="wide")
+    st.set_page_config(page_title="SYNaws", layout="wide")
 
     # Add custom CSS
     st.markdown("""
@@ -90,7 +90,7 @@ def main():
         </style>
     """, unsafe_allow_html=True)
 
-    st.title("AWS Billing Data Generator")
+    st.title("SYNaws")
     st.write("Generate synthetic AWS billing data in CUR 2.0 format")
 
     # Sidebar configuration
